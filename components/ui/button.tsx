@@ -4,16 +4,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "~lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-px disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:opacity-90",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        default:
+          "bg-primary text-primary-foreground shadow-[0_10px_24px_rgba(59,130,246,0.22)] hover:brightness-95",
+        secondary:
+          "border border-border/70 bg-secondary/90 text-secondary-foreground shadow-sm hover:bg-secondary hover:border-primary/20",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        destructive: "bg-red-600 text-white hover:bg-red-700"
+          "border border-input/90 bg-background/85 text-foreground shadow-sm hover:border-primary/30 hover:bg-accent hover:text-accent-foreground",
+        ghost:
+          "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground",
+        destructive:
+          "bg-rose-600 text-white shadow-[0_10px_24px_rgba(225,29,72,0.22)] hover:bg-rose-700"
       },
       size: {
         default: "h-10 px-4 py-2",

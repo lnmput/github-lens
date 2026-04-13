@@ -5,10 +5,11 @@ export type ProviderType =
   | "moonshot"
   | "qwen"
   | "groq"
+  | "openrouter"
   | "custom"
 
-export type OutputLanguage = "auto" | "zh" | "en"
-export type ResolvedOutputLanguage = "zh" | "en"
+export type OutputLanguage = "auto" | "zh" | "en" | "ja" | "ko" | "de" | "fr" | "es"
+export type ResolvedOutputLanguage = "zh" | "en" | "ja" | "ko" | "de" | "fr" | "es"
 export type SummaryDepth = "brief" | "detailed"
 
 export interface ProviderConfig {

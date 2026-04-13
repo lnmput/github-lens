@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Activity, ChevronRight, Code2, RefreshCw, Settings2, Sparkles } from "lucide-react"
 
-import iconUrl from "url:~assets/icon.png"
+import LogoMark from "~components/LogoMark"
 import SummaryResult from "~components/SummaryResult"
 import RecommendationResult from "~components/RecommendationResult"
 import {
@@ -223,15 +223,12 @@ export default function SummaryPanel({
 
   return (
     <div className={cn("github-lens-root font-sans", theme === "dark" && "dark")}>
-      <div className="w-full max-w-[300px] overflow-hidden rounded-lg border border-border/50 bg-card shadow-panel">
+      <div className="w-full max-w-[300px] overflow-hidden rounded-[20px] border border-primary/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.98))] shadow-[0_24px_48px_rgba(37,99,235,0.12)] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(15,23,42,0.92))]">
         {/* Header */}
-        <div className="relative overflow-hidden bg-[#f8fafc] py-2.5 px-3.5 dark:bg-slate-900/50">
+        <div className="relative overflow-hidden bg-[linear-gradient(135deg,rgba(239,246,255,0.95),rgba(224,231,255,0.85))] px-3.5 py-2.5 dark:bg-[linear-gradient(135deg,rgba(30,41,59,0.9),rgba(49,46,129,0.55))]">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
-                <img alt="GitHub Lens Logo" className="h-5 w-5" src={iconUrl} />
-                <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-500 dark:border-slate-800" />
-              </div>
+              <LogoMark className="h-10 w-10 rounded-[16px]" imageClassName="h-[82%] w-[82%]" />
               <div className="flex flex-col">
                 <h3 className="text-[13px] font-extrabold tracking-tight text-slate-900 dark:text-slate-100 uppercase leading-tight">
                   GitHub Lens
@@ -243,7 +240,7 @@ export default function SummaryPanel({
             </div>
 
             <button
-              className="flex h-7 w-7 items-center justify-center rounded-md text-slate-300 transition-all hover:bg-slate-100 hover:text-slate-500 dark:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-400"
+              className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-white/70 hover:text-primary dark:text-slate-500 dark:hover:bg-slate-800/80 dark:hover:text-sky-300"
               onClick={handleOpenOptions}
               title="Settings"
               type="button">
@@ -252,94 +249,114 @@ export default function SummaryPanel({
           </div>
         </div>
 
-        <div className="p-2.5">
+        <div className="p-3">
           {!isConfigured ? (
-            <div className="group relative overflow-hidden rounded-md bg-gradient-to-br from-amber-50 to-orange-50 p-3.5 transition-all hover:shadow-md dark:from-amber-950/20 dark:to-orange-950/20">
-              <div className="flex items-start justify-between">
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm font-bold text-amber-900 dark:text-amber-200">
-                      Activate AI Power
-                    </p>
-                  </div>
+            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 p-4 transition-all hover:shadow-md dark:from-amber-950/20 dark:to-orange-950/20">
+              <div className="space-y-3">
+                <div className="space-y-1.5">
+                  <p className="text-sm font-bold text-amber-900 dark:text-amber-200">
+                    Activate AI Power
+                  </p>
                   <p className="text-[11px] leading-relaxed text-amber-800/70 dark:text-amber-300/60">
                     Configure your API Key to unlock deep insights and technical discovery.
                   </p>
-                  <button
-                    className="mt-1 flex items-center gap-1.5 text-[11px] font-bold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300"
-                    onClick={handleOpenOptions}
-                    type="button">
-                    Go to Settings <ChevronRight className="h-3 w-3" />
-                  </button>
                 </div>
+                <button
+                  className="flex items-center gap-1.5 text-[11px] font-bold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300"
+                  onClick={handleOpenOptions}
+                  type="button">
+                  Go to Settings <ChevronRight className="h-3 w-3" />
+                </button>
               </div>
             </div>
           ) : (
-            <div className="space-y-2.5">
-              {/* Tab Navigation */}
-              <div className="flex rounded-md bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
+            <div className="space-y-3">
+              {/* Enhanced Tab Navigation */}
+              <div className="flex rounded-xl bg-secondary/85 p-1 ring-1 ring-primary/10 dark:bg-slate-800/85 dark:ring-primary/10">
                 {tabOptions.map((tab) => (
                   <button
                     className={cn(
-                      "flex flex-1 items-center justify-center gap-2 rounded-md py-1.5 text-[12px] font-bold transition-all",
+                      "group relative flex flex-1 items-center justify-center gap-2 rounded-lg py-1.5 text-[11px] font-extrabold uppercase tracking-wider transition-all duration-300",
                       activeTab === tab.key
-                        ? "bg-white text-blue-600 shadow-sm ring-1 ring-slate-200 dark:bg-slate-700 dark:text-blue-400 dark:ring-slate-600"
-                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                        ? "bg-white text-indigo-600 shadow-[0_10px_24px_rgba(59,130,246,0.12)] ring-1 ring-indigo-500/10 dark:bg-slate-700 dark:text-indigo-300 dark:ring-indigo-400/20"
+                        : "text-slate-500 hover:bg-white/55 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-700/60 dark:hover:text-slate-200"
                     )}
                     key={tab.key}
                     onClick={() => void handleTabSelect(tab.key)}
                     type="button">
-                    {tab.icon}
+                    <span className={cn(
+                      "transition-transform duration-300 group-hover:scale-110",
+                      activeTab === tab.key ? "text-indigo-500" : "text-slate-400"
+                    )}>
+                      {tab.icon}
+                    </span>
                     {tab.label}
+                    {activeTab === tab.key && (
+                      <span className="absolute -bottom-0.5 h-0.5 w-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
+                    )}
                   </button>
                 ))}
               </div>
 
               {error && (
-                <div className="rounded-md border border-red-100 bg-red-50/50 p-3 text-xs dark:border-red-900/30 dark:bg-red-950/20">
-                  <div className="flex items-start gap-2.5">
-                    <div className="mt-0.5 rounded-full bg-red-100 p-0.5 dark:bg-red-900/50">
-                      <Settings2 className="h-3 w-3 text-red-600 dark:text-red-400" />
+                <div className="group relative overflow-hidden rounded-xl border border-red-200 bg-red-50/30 p-4 transition-all hover:bg-red-50/50 dark:border-red-900/30 dark:bg-red-950/10">
+                  <div className="space-y-3">
+                    <div className="flex-1 space-y-1.5">
+                      <h4 className="text-[13px] font-bold text-red-800 dark:text-red-200 text-center">
+                        {error.toLowerCase().includes("rate limit") ? "API Rate Limit Reached" : 
+                         error.toLowerCase().includes("api key") || error.toLowerCase().includes("unauthorized") ? "Authentication Failed" :
+                         "Oops! Something went wrong"}
+                      </h4>
+                      <p className="text-[11px] leading-relaxed text-red-700/80 dark:text-red-400/70 text-center">
+                        {error.toLowerCase().includes("rate limit") ? (
+                          <>
+                            Your current API tier has a limit. Please wait a few seconds and try again.
+                            {error.includes("in ") && <span className="block mt-1 font-mono text-[10px] opacity-70 italic">{error.split("in ")[1].split(".")[0]}s remaining</span>}
+                          </>
+                        ) : error.toLowerCase().includes("api key") || error.toLowerCase().includes("unauthorized") ? (
+                          "Your API Key seems invalid or expired. Check your provider settings."
+                        ) : (
+                          error
+                        )}
+                      </p>
                     </div>
-                    <div className="grid flex-1 gap-2">
-                      <p className="font-medium text-red-800 dark:text-red-300">{error}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {error.toLowerCase().includes("api key") || error.toLowerCase().includes("401") || error.toLowerCase().includes("unauthorized") ? (
-                          <button
-                            className="w-fit rounded-md bg-red-600 px-3 py-1 font-bold text-white transition-colors hover:bg-red-700"
-                            onClick={handleOpenOptions}
-                            type="button">
-                            Go to Settings
-                          </button>
-                        ) : null}
+                    
+                    <div className="flex flex-col gap-2 pt-1">
+                      <button
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-[12px] font-black uppercase tracking-widest text-white shadow-md transition-all hover:bg-red-700 hover:shadow-lg active:scale-[0.98]"
+                        onClick={() =>
+                          activeTab === "recommendation"
+                            ? handleRecommendation(true)
+                            : handleSummarize(true)
+                        }
+                        type="button">
+                        <RefreshCw className="h-4 w-4" />
+                        Retry Analysis
+                      </button>
+                      
+                      {(error.toLowerCase().includes("api key") || error.toLowerCase().includes("401") || error.toLowerCase().includes("unauthorized") || error.toLowerCase().includes("settings")) && (
                         <button
-                          className="w-fit rounded-md bg-white/50 px-3 py-1 font-bold text-red-700 transition-colors hover:bg-white/80 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/40"
-                          onClick={() =>
-                            activeTab === "recommendation"
-                              ? handleRecommendation()
-                              : activeTab === "summary"
-                                ? handleSummarize()
-                                : Promise.resolve()
-                          }
+                          className="w-full rounded-xl border border-red-200 bg-white py-2 text-[11px] font-bold text-red-700 transition-all hover:bg-red-50 dark:border-red-900/50 dark:bg-slate-900 dark:text-red-300 dark:hover:bg-red-900/20"
+                          onClick={handleOpenOptions}
                           type="button">
-                          Retry
+                          Modify API Settings
                         </button>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Content Area */}
-              <div className={cn(!error && "min-h-[90px]")}>
+              <div className={cn(!error && "min-h-[108px]")}>
                 {loadingAction ? (
-                  <div className="flex flex-col items-center justify-center py-4">
+                  <div className="flex min-h-[120px] flex-col items-center justify-center py-5">
                     <div className="relative mb-3 flex h-10 w-10 items-center justify-center group">
-                      <div className="absolute inset-0 animate-pulse rounded-md bg-blue-100/50 dark:bg-blue-900/30" />
+                      <div className="absolute inset-0 animate-pulse rounded-md bg-indigo-100/50 dark:bg-indigo-900/30" />
                       <div className="relative flex h-full w-full items-center justify-center rounded-md bg-white shadow-sm ring-1 ring-slate-100 dark:bg-slate-800 dark:ring-slate-700 overflow-hidden">
-                        <Code2 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                        <Code2 className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                         {/* Scanning Bar for Loading */}
-                        <div className="absolute inset-x-0 h-0.5 w-full animate-[scan_1.5s_ease-in-out_infinite] bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <div className="absolute inset-x-0 h-0.5 w-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)] animate-[scan_1.5s_ease-in-out_infinite]" />
                       </div>
                     </div>
                     <div className="space-y-1.5 px-4 text-center">
@@ -351,16 +368,18 @@ export default function SummaryPanel({
                       </p>
                     </div>
                   </div>
-                ) : !activeTab ? (
-                  <div className="flex flex-col items-center justify-center py-5 text-center animate-in fade-in duration-300">
+                 ) : !activeTab ? (
+                   <div className="flex min-h-[120px] flex-col items-center justify-center py-6 text-center animate-in fade-in duration-300">
                     <div className="relative mb-3 group">
                       <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-50 shadow-sm ring-1 ring-slate-100 dark:bg-slate-800/50 dark:ring-slate-700 overflow-hidden">
                         <Code2 className="h-5 w-5 text-slate-300 dark:text-slate-600" />
-                        <div className="absolute inset-x-0 h-0.5 w-full animate-[scan_3s_ease-in-out_infinite] bg-blue-400/30 blur-[1px]" />
+                        <div className="absolute inset-x-0 h-0.5 w-full animate-[scan_3s_ease-in-out_infinite] bg-indigo-400/30 blur-[1px]" />
                       </div>
                     </div>
-                    <h4 className="text-[12px] font-bold text-slate-700 dark:text-slate-100 uppercase tracking-tight">Select a tab to start</h4>
-                    <p className="mt-1 text-[10px] leading-relaxed text-slate-400 dark:text-slate-500 max-w-[160px]">
+                    <h3 className="mb-2 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-200">
+                      Select a Tab to Start
+                    </h3>
+                    <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
                       AI-Powered Insight Hub
                     </p>
                   </div>

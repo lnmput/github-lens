@@ -7,40 +7,40 @@
 @layer base {
   :host,
   .github-lens-root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --background: 0.985 0.005 255;
+    --foreground: 0.255 0.03 258;
+    --card: 0.993 0.004 255;
+    --card-foreground: 0.255 0.03 258;
+    --primary: 0.61 0.18 259;
+    --primary-foreground: 0.985 0.004 255;
+    --secondary: 0.962 0.012 252;
+    --secondary-foreground: 0.33 0.045 258;
+    --muted: 0.968 0.01 252;
+    --muted-foreground: 0.54 0.028 258;
+    --accent: 0.948 0.022 250;
+    --accent-foreground: 0.33 0.045 258;
+    --border: 0.92 0.012 253;
+    --input: 0.94 0.012 253;
+    --ring: 0.68 0.15 258;
   }
 
   .dark.github-lens-root,
   .github-lens-root.dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 216 34% 17%;
+    --background: 0.19 0.014 255;
+    --foreground: 0.93 0.01 255;
+    --card: 0.235 0.015 255;
+    --card-foreground: 0.93 0.01 255;
+    --primary: 0.76 0.12 255;
+    --primary-foreground: 0.22 0.02 255;
+    --secondary: 0.29 0.018 255;
+    --secondary-foreground: 0.91 0.01 255;
+    --muted: 0.275 0.014 255;
+    --muted-foreground: 0.73 0.018 255;
+    --accent: 0.31 0.025 252;
+    --accent-foreground: 0.93 0.01 255;
+    --border: 0.34 0.016 255;
+    --input: 0.33 0.016 255;
+    --ring: 0.72 0.11 255;
   }
 
   * {
@@ -49,6 +49,13 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top, color-mix(in oklch, oklch(var(--primary)) 12%, transparent) 0%, transparent 48%),
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, oklch(var(--background)) 96%, white) 0%,
+        oklch(var(--background)) 100%
+      );
     font-family:
       "Outfit",
       "Inter",
@@ -62,17 +69,17 @@
 
 @layer utilities {
   .glass-card {
-    background: rgba(255, 255, 255, 0.7);
+    background: color-mix(in oklch, oklch(var(--card)) 76%, white);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid color-mix(in oklch, oklch(var(--border)) 85%, white);
   }
 
   .dark .glass-card {
-    background: rgba(15, 23, 42, 0.6);
+    background: color-mix(in oklch, oklch(var(--card)) 78%, black);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid color-mix(in oklch, oklch(var(--border)) 88%, black);
   }
 
   .text-gradient {
@@ -102,4 +109,3 @@
     }
   }
 }
-

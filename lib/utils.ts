@@ -162,7 +162,16 @@ export function resolveOutputLanguage(
 }
 
 export function getOutputLanguageLabel(language: ResolvedOutputLanguage) {
-  return language === "zh" ? "Chinese" : "English"
+  const map: Record<ResolvedOutputLanguage, string> = {
+    zh: "Chinese",
+    en: "English",
+    ja: "Japanese",
+    ko: "Korean",
+    de: "German",
+    fr: "French",
+    es: "Spanish"
+  }
+  return map[language] ?? "English"
 }
 
 export function getHostPermissionPattern(baseUrl: string) {

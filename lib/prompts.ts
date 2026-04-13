@@ -58,20 +58,21 @@ Based on the current project, find 4~6 **relevant expansion resources**:
 4. **Deep-dive Articles/Benchmarks** (blogs, papers, or columns for deeper understanding)
 
 ## Rules
-1. **Quality over Quantity**: Only recommend high-quality resources you are CERTAIN exist.
-2. **Direct Rationale**: 'whyBetter' must be concise and sharp (e.g., "Supports XX", "Modern UI", "Active Community").
-3. **Output**: Return valid JSON only, no comments.
+1. **Output Language**: {{language}} (MANDATORY: Every JSON field value EXCEPT for technical URLs and proper names MUST be strictly in {{language}}).
+2. **Quality over Quantity**: Only recommend high-quality resources you are CERTAIN exist.
+3. **Direct Rationale**: 'whyBetter' must be concise and sharp (e.g., if {{language}} is Chinese: "界面现代化", "社区活跃").
+4. **Format**: Return strict valid JSON only, no markdown blocks.
 
 ## Output Structure
 {
-  "overview": "Summary of discovery in < 15 words",
+  "overview": "Summary sentence in {{language}} (< 15 words)",
   "items": [
     {
       "type": "repo | app | tool | article",
       "name": "Resource Name",
       "url": "Full URL",
-      "description": "< 10 words description",
-      "whyBetter": "< 8 words sharp recommendation reason"
+      "description": "Description in {{language}} (< 10 words)",
+      "whyBetter": "Reason in {{language}} (< 8 words)"
     }
   ],
   "dataQuality": "High | Medium | Low"

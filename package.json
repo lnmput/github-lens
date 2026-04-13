@@ -1,7 +1,7 @@
 {
   "name": "github-lens",
   "displayName": "GitHub Lens",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AI-powered GitHub repository explorer for instant insights, summaries, and smart recommendations.",
   "author": "Yangzie <[lnmput@gmail.com]>",
   "scripts": {

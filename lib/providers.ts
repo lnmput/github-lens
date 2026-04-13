@@ -7,6 +7,7 @@ export const PROVIDER_BASE_URLS: Record<ProviderType, string> = {
   moonshot: "https://api.moonshot.cn",
   qwen: "https://dashscope.aliyuncs.com/compatible-mode",
   groq: "https://api.groq.com/openai",
+  openrouter: "https://openrouter.ai/api",
   custom: ""
 }
 
@@ -17,6 +18,7 @@ export const PROVIDER_LABELS: Record<ProviderType, string> = {
   moonshot: "Moonshot AI",
   qwen: "Aliyun (Qwen)",
   groq: "Groq",
+  openrouter: "OpenRouter",
   custom: "Custom (OpenAI Proxy)"
 }
 
@@ -34,6 +36,12 @@ export const PRESET_MODELS: Record<ProviderType, string[]> = {
     "llama-3.3-70b-versatile",
     "mixtral-8x7b-32768",
     "gemma2-9b-it"
+  ],
+  openrouter: [
+    "anthropic/claude-3.5-sonnet",
+    "google/gemini-pro-1.5",
+    "meta-llama/llama-3.1-405b",
+    "deepseek/deepseek-chat"
   ],
   custom: []
 }
