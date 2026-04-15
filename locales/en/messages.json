@@ -65,6 +65,8 @@
   "optionsAboutTitle": { "message": "About GitHub Lens" },
   "optionsAboutVersion": { "message": "Version:" },
   "optionsAboutDescriptionLabel": { "message": "Description:" },
+  "optionsMetaVersion": { "message": "Version" },
+  "optionsMetaOpenSource": { "message": "Open Source" },
   "optionsActiveConfiguration": { "message": "Active Configuration" },
   "optionsDangerZone": { "message": "Danger Zone" },
   "optionsClearCacheTitle": { "message": "Clear Search & Discovery Cache" },

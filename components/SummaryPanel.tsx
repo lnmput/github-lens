@@ -116,7 +116,7 @@ export default function SummaryPanel({
     if (!response.success || !response.data) {
       setError(
         response.error ??
-          t("errorFailedToGenerateSummary", undefined, "Failed to generate summary")
+        t("errorFailedToGenerateSummary", undefined, "Failed to generate summary")
       )
       setLoadingAction(null)
       return
@@ -293,29 +293,29 @@ export default function SummaryPanel({
             </div>
           ) : (
             <div className="space-y-3">
-              {/* Enhanced Tab Navigation */}
-              <div className="flex rounded-xl bg-secondary/85 p-1 ring-1 ring-primary/10 dark:bg-slate-800/85 dark:ring-primary/10">
+              {/* Compact segmented tab navigation */}
+              <div className="relative grid grid-cols-2 rounded-xl bg-slate-100/85 ring-1 ring-slate-200/80 dark:bg-slate-800/80 dark:ring-slate-700/80">
+                <span className="pointer-events-none absolute bottom-2.5 left-1/2 top-2.5 z-20 w-px -translate-x-1/2 rounded-full bg-slate-400/90 dark:bg-slate-500/90" />
                 {tabOptions.map((tab) => (
                   <button
                     className={cn(
-                      "group relative flex flex-1 items-center justify-center gap-2 rounded-lg py-1.5 text-[11px] font-extrabold uppercase tracking-wider transition-all duration-300",
+                      "group relative z-10 flex h-9 items-center justify-center gap-1.5 rounded-[10px] px-3 text-[13px] font-semibold transition-all duration-200",
                       activeTab === tab.key
-                        ? "bg-white text-indigo-600 shadow-[0_10px_24px_rgba(59,130,246,0.12)] ring-1 ring-indigo-500/10 dark:bg-slate-700 dark:text-indigo-300 dark:ring-indigo-400/20"
-                        : "text-slate-500 hover:bg-white/55 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-700/60 dark:hover:text-slate-200"
+                        ? "bg-white text-slate-900 shadow-[0_6px_14px_rgba(15,23,42,0.10)] ring-1 ring-slate-200/90 dark:bg-slate-700 dark:text-slate-100 dark:ring-slate-600"
+                        : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
                     )}
                     key={tab.key}
                     onClick={() => void handleTabSelect(tab.key)}
                     type="button">
                     <span className={cn(
-                      "transition-transform duration-300 group-hover:scale-110",
-                      activeTab === tab.key ? "text-indigo-500" : "text-slate-400"
+                      "transition-colors duration-200",
+                      activeTab === tab.key
+                        ? "text-blue-600 dark:text-blue-300"
+                        : "text-slate-400 dark:text-slate-500"
                     )}>
                       {tab.icon}
                     </span>
                     {tab.label}
-                    {activeTab === tab.key && (
-                      <span className="absolute -bottom-0.5 h-0.5 w-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
-                    )}
                   </button>
                 ))}
               </div>
@@ -328,13 +328,13 @@ export default function SummaryPanel({
                         {error.toLowerCase().includes("rate limit")
                           ? t("summaryPanelErrorRateLimit", undefined, "API Rate Limit Reached")
                           : error.toLowerCase().includes("api key") ||
-                              error.toLowerCase().includes("unauthorized")
+                            error.toLowerCase().includes("unauthorized")
                             ? t("summaryPanelErrorAuthFailed", undefined, "Authentication Failed")
                             : t(
-                                "summaryPanelErrorGenericTitle",
-                                undefined,
-                                "Oops! Something went wrong"
-                              )}
+                              "summaryPanelErrorGenericTitle",
+                              undefined,
+                              "Oops! Something went wrong"
+                            )}
                       </h4>
                       <p className="text-[11px] leading-relaxed text-red-700/80 dark:text-red-400/70 text-center">
                         {error.toLowerCase().includes("rate limit") ? (
@@ -357,7 +357,7 @@ export default function SummaryPanel({
                         )}
                       </p>
                     </div>
-                    
+
                     <div className="flex flex-col gap-2 pt-1">
                       <button
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-[12px] font-black uppercase tracking-widest text-white shadow-md transition-all hover:bg-red-700 hover:shadow-lg active:scale-[0.98]"
@@ -370,7 +370,7 @@ export default function SummaryPanel({
                         <RefreshCw className="h-4 w-4" />
                         {t("actionRetryAnalysis", undefined, "Retry Analysis")}
                       </button>
-                      
+
                       {(error.toLowerCase().includes("api key") || error.toLowerCase().includes("401") || error.toLowerCase().includes("unauthorized") || error.toLowerCase().includes("settings")) && (
                         <button
                           className="w-full rounded-xl border border-red-200 bg-white py-2 text-[11px] font-bold text-red-700 transition-all hover:bg-red-50 dark:border-red-900/50 dark:bg-slate-900 dark:text-red-300 dark:hover:bg-red-900/20"
@@ -407,8 +407,8 @@ export default function SummaryPanel({
                       </p>
                     </div>
                   </div>
-                 ) : !activeTab ? (
-                   <div className="flex min-h-[120px] flex-col items-center justify-center py-6 text-center animate-in fade-in duration-300">
+                ) : !activeTab ? (
+                  <div className="flex min-h-[120px] flex-col items-center justify-center py-6 text-center animate-in fade-in duration-300">
                     <div className="relative mb-3 group">
                       <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-50 shadow-sm ring-1 ring-slate-100 dark:bg-slate-800/50 dark:ring-slate-700 overflow-hidden">
                         <Code2 className="h-5 w-5 text-slate-300 dark:text-slate-600" />

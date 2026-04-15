@@ -65,6 +65,8 @@
   "optionsAboutTitle": { "message": "关于 GitHub Lens" },
   "optionsAboutVersion": { "message": "版本：" },
   "optionsAboutDescriptionLabel": { "message": "描述：" },
+  "optionsMetaVersion": { "message": "版本" },
+  "optionsMetaOpenSource": { "message": "开源地址" },
   "optionsActiveConfiguration": { "message": "当前配置" },
   "optionsDangerZone": { "message": "危险区域" },
   "optionsClearCacheTitle": { "message": "清理搜索与发现缓存" },

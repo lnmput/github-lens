@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useState } from "react"
-import { ChevronDown, Eye, EyeOff, Loader2, Save, Trash2, Wifi } from "lucide-react"
+import {
+  ChevronDown,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  Loader2,
+  Save,
+  Trash2,
+  Wifi
+} from "lucide-react"
 import { Toaster, toast } from "sonner"
 import "sonner/dist/styles.css"
 
@@ -52,6 +61,9 @@ function createDefaultConfig(provider: ProviderType = "anthropic"): ProviderConf
 }
 
 export default function OptionsPage() {
+  const appVersion = chrome.runtime.getManifest().version
+  const openSourceUrl = "https://github.com/lnmput/github-lens"
+
   const [activeTab, setActiveTab] = useState<TabKey>("modelConfig")
   const [settings, setSettings] = useState<UserSettings | null>(null)
   const [formConfig, setFormConfig] = useState<ProviderConfig>(
@@ -367,6 +379,25 @@ export default function OptionsPage() {
                   </p>
                 </button>
               ))}
+            </CardContent>
+          </Card>
+
+          <Card className="border-primary/10 shadow-[0_12px_30px_rgba(37,99,235,0.06)]">
+            <CardContent className="space-y-1.5 p-2.5">
+              <div className="flex items-center justify-center rounded-xl bg-secondary/60 px-3 py-2">
+                <span className="text-sm font-bold text-foreground">v{appVersion}</span>
+              </div>
+
+              <a
+                className="flex items-center justify-center rounded-xl bg-secondary/60 px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-secondary/80"
+                href={openSourceUrl}
+                rel="noreferrer"
+                target="_blank">
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-primary">
+                  GitHub
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </span>
+              </a>
             </CardContent>
           </Card>
         </aside>
@@ -747,7 +778,7 @@ export default function OptionsPage() {
                   <CardTitle>{t("optionsAboutTitle", undefined, "About GitHub Lens")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm text-muted-foreground">
-                  <p>{t("optionsAboutVersion", undefined, "Version:")} 0.0.2</p>
+                  <p>{t("optionsAboutVersion", undefined, "Version:")} {appVersion}</p>
                   <p>
                     {t("optionsAboutDescriptionLabel", undefined, "Description:")}{" "}
                     {t(
