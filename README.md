@@ -1,5 +1,9 @@
 # GitHub Lens 🔍
 
+<p align="right">
+  <a href="./README.md">English</a> | <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
 ![GitHub Lens Banner](assets/banner.png)
 
 > **Intelligent Repository Exploration Powered by AI.**  
