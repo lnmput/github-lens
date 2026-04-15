@@ -20,60 +20,67 @@ export default function PopupPage() {
   const configured = isProviderConfigured(settings?.providerConfig)
 
   return (
-    <div className="github-lens-root min-w-[320px] bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.18),_transparent_58%)] p-4">
-      <Card className="overflow-hidden border-primary/10 shadow-[0_18px_40px_rgba(37,99,235,0.12)]">
-        <CardHeader className="border-b border-border/60 bg-[linear-gradient(135deg,rgba(59,130,246,0.09),rgba(99,102,241,0.12))]">
-          <CardTitle className="flex items-center justify-between text-slate-900 dark:text-slate-50">
-            <div className="flex items-center gap-2">
-              <LogoMark className="h-9 w-9 rounded-[16px]" imageClassName="h-[82%] w-[82%]" />
-              <span>{t("extensionName", undefined, "GitHub Lens")}</span>
+    <div className="github-lens-root min-w-[310px] bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.16),_transparent_56%)] p-3">
+      <Card className="overflow-hidden border-primary/15 shadow-[0_16px_32px_rgba(37,99,235,0.14)]">
+        <CardHeader className="space-y-3 border-b border-border/60 bg-[linear-gradient(130deg,rgba(59,130,246,0.10),rgba(99,102,241,0.14))] px-4 pb-3 pt-3.5">
+          <CardTitle className="flex items-center justify-between gap-3 text-slate-900 dark:text-slate-50">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <LogoMark className="h-8 w-8 rounded-[14px]" imageClassName="h-[80%] w-[80%]" />
+              <span className="truncate text-[1.3rem] font-black tracking-tight">
+                {t("extensionName", undefined, "GitHub Lens")}
+              </span>
             </div>
-            <Badge variant={configured ? "success" : "warning"}>
+            <Badge className="shrink-0" variant={configured ? "success" : "warning"}>
               {configured
                 ? t("statusConfigured", undefined, "Configured")
                 : t("statusNotConfigured", undefined, "Not Configured")}
             </Badge>
           </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5 p-5">
-          <div className="rounded-2xl border border-primary/10 bg-[linear-gradient(135deg,rgba(239,246,255,0.9),rgba(238,242,255,0.95))] p-4 dark:border-primary/15 dark:bg-[linear-gradient(135deg,rgba(30,41,59,0.72),rgba(30,27,75,0.72))]">
-            <p className="text-sm font-medium leading-relaxed text-slate-700 dark:text-slate-200">
-              {t(
-                "popupTagline",
-                undefined,
-                "Generate AI summaries, technical insights, and smart recommendations directly on GitHub."
-              )}
-            </p>
-          </div>
 
+          <p className="max-h-[2.8em] overflow-hidden text-[13px] font-semibold leading-relaxed text-slate-600 dark:text-slate-300">
+            {t(
+              "popupTagline",
+              undefined,
+              "Generate AI summaries, technical insights, and smart recommendations directly on GitHub."
+            )}
+          </p>
+        </CardHeader>
+
+        <CardContent className="space-y-3.5 px-4 pb-4 pt-3.5">
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div className="rounded-xl border border-border/70 bg-secondary/70 px-3 py-2.5">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+            <div className="rounded-lg border border-border/70 bg-secondary/65 px-2.5 py-2">
+              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                 {t("labelProvider", undefined, "Provider")}
               </p>
-              <p className="mt-1 font-semibold text-foreground">
+              <p className="mt-0.5 truncate text-base font-black text-foreground">
                 {settings?.providerConfig?.provider ??
                   t("statusNotSet", undefined, "Not Set")}
               </p>
             </div>
-            <div className="rounded-xl border border-border/70 bg-secondary/70 px-3 py-2.5">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+
+            <div className="rounded-lg border border-border/70 bg-secondary/65 px-2.5 py-2">
+              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                 {t("labelLanguage", undefined, "Language")}
               </p>
-              <p className="mt-1 font-semibold text-foreground">
+              <p className="mt-0.5 truncate text-base font-black text-foreground">
                 {settings?.language ?? "auto"}
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 pt-1">
-            <Button onClick={() => chrome.runtime.openOptionsPage()} variant="outline">
-              <Settings2 className="h-4 w-4" />
-              {t("actionSettings", undefined, "Settings")}
-            </Button>
+
+          <div className="grid grid-cols-2 gap-2">
             <Button
+              className="h-10 text-base font-black"
               onClick={() => chrome.tabs.create({ url: "https://github.com" })}>
               <ExternalLink className="h-4 w-4" />
               GitHub
+            </Button>
+            <Button
+              className="h-10 text-base font-black"
+              onClick={() => chrome.runtime.openOptionsPage()}
+              variant="outline">
+              <Settings2 className="h-4 w-4" />
+              {t("actionSettings", undefined, "Settings")}
             </Button>
           </div>
         </CardContent>

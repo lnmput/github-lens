@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
-import { Eye, EyeOff, Loader2, Save, Trash2, Wifi } from "lucide-react"
+import { ChevronDown, Eye, EyeOff, Loader2, Save, Trash2, Wifi } from "lucide-react"
+import { Toaster, toast } from "sonner"
+import "sonner/dist/styles.css"
 
 import { Badge } from "~components/ui/badge"
 import { Button } from "~components/ui/button"
@@ -35,6 +37,8 @@ const promptVariables = [
 const fieldClassName =
   "w-full rounded-xl border border-input/90 bg-background/90 px-3 py-2.5 text-foreground shadow-sm shadow-slate-950/[0.02] outline-none transition-[border-color,box-shadow,background-color] focus:border-primary/40 focus:bg-background focus:ring-4 focus:ring-primary/10"
 
+const selectFieldClassName = `${fieldClassName} appearance-none pr-10`
+
 const textAreaFieldClassName = `${fieldClassName} font-mono text-sm`
 
 function createDefaultConfig(provider: ProviderType = "anthropic"): ProviderConfig {
@@ -62,8 +66,6 @@ export default function OptionsPage() {
     DEFAULT_PROMPT_TEMPLATES.recommendationPrompt
   )
   const [showApiKey, setShowApiKey] = useState(false)
-  const [message, setMessage] = useState("")
-  const [testResult, setTestResult] = useState<TestResult | null>(null)
   const [testing, setTesting] = useState(false)
   const [saving, setSaving] = useState(false)
 
@@ -142,15 +144,18 @@ export default function OptionsPage() {
 
   const handleSave = async () => {
     setSaving(true)
-    setMessage("")
 
     if (formConfig.customHeaders?.trim()) {
       try {
         JSON.parse(formConfig.customHeaders)
       } catch {
         setSaving(false)
-        setMessage(
-          t("optionsMsgInvalidCustomHeadersJson", undefined, "Custom Headers are not valid JSON.")
+        toast.error(
+          t(
+            "optionsMsgInvalidCustomHeadersJson",
+            undefined,
+            "Custom Headers are not valid JSON."
+          )
         )
         return
       }
@@ -176,7 +181,7 @@ export default function OptionsPage() {
       await ensureProviderPermission(formConfig)
     } catch (error) {
       setSaving(false)
-      setMessage(
+      toast.error(
         error instanceof Error
           ? error.message
           : t("optionsMsgAuthorizationFailed", undefined, "Authorization failed")
@@ -186,25 +191,22 @@ export default function OptionsPage() {
 
     await saveUserSettings(nextSettings)
     setSettings(nextSettings)
-    setMessage(t("optionsMsgSettingsSaved", undefined, "Settings saved."))
+    toast.success(t("optionsMsgSettingsSaved", undefined, "Settings saved."))
     setSaving(false)
   }
 
   const handleTestConnection = async () => {
     setTesting(true)
-    setMessage("")
 
     try {
       await ensureProviderPermission(formConfig)
     } catch (error) {
       setTesting(false)
-      setTestResult({
-        success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : t("optionsMsgAuthorizationFailed", undefined, "Authorization failed")
-      })
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : t("optionsMsgAuthorizationFailed", undefined, "Authorization failed")
+      )
       return
     }
 
@@ -214,14 +216,14 @@ export default function OptionsPage() {
     })
 
     if (!response.success || !response.data) {
-      setTestResult({
-        success: false,
-        error:
-          response.error ??
+      toast.error(
+        response.error ??
           t("optionsMsgConnectionTestFailed", undefined, "Connection test failed")
-      })
+      )
     } else {
-      setTestResult(response.data)
+      toast.success(
+        `✅ ${t("optionsConnectionSuccess", undefined, "Connection Success")} (${response.data.latency}ms)`
+      )
     }
 
     setTesting(false)
@@ -233,7 +235,6 @@ export default function OptionsPage() {
     }
 
     setSaving(true)
-    setMessage("")
 
     const nextSettings: UserSettings = {
       providerConfig: settings.providerConfig,
@@ -248,7 +249,7 @@ export default function OptionsPage() {
 
     await saveUserSettings(nextSettings)
     setSettings(nextSettings)
-    setMessage(t("optionsMsgPreferencesSaved", undefined, "Preferences saved."))
+    toast.success(t("optionsMsgPreferencesSaved", undefined, "Preferences saved."))
     setSaving(false)
   }
 
@@ -262,12 +263,12 @@ export default function OptionsPage() {
     )
 
     if (keysToRemove.length === 0) {
-      setMessage(t("optionsMsgNoCacheToClear", undefined, "No cache to clear."))
+      toast.message(t("optionsMsgNoCacheToClear", undefined, "No cache to clear."))
       return
     }
 
     await chrome.storage.local.remove(keysToRemove)
-    setMessage(
+    toast.success(
       t(
         "optionsMsgClearedCache",
         String(keysToRemove.length),
@@ -297,6 +298,7 @@ export default function OptionsPage() {
 
   return (
     <div className="github-lens-root min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.10),_transparent_48%),linear-gradient(180deg,rgba(248,250,252,0.98),rgba(241,245,249,0.98))] p-8 font-sans dark:bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.16),_transparent_45%),linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]">
+      <Toaster position="top-center" richColors />
       <div className="mx-auto max-w-6xl lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-8">
         <aside className="space-y-5 lg:sticky lg:top-8">
           <Card className="overflow-hidden border-primary/10 shadow-[0_18px_40px_rgba(37,99,235,0.08)]">
@@ -428,18 +430,21 @@ export default function OptionsPage() {
                       <span className="font-medium">
                         {t("labelProvider", undefined, "Provider")}
                       </span>
-                      <select
-                        className={fieldClassName}
-                        onChange={(e) =>
-                          handleProviderChange(e.target.value as ProviderType)
-                        }
-                        value={formConfig.provider}>
-                        {Object.entries(PROVIDER_LABELS).map(([value, label]) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative">
+                        <select
+                          className={selectFieldClassName}
+                          onChange={(e) =>
+                            handleProviderChange(e.target.value as ProviderType)
+                          }
+                          value={formConfig.provider}>
+                          {Object.entries(PROVIDER_LABELS).map(([value, label]) => (
+                            <option key={value} value={value}>
+                              {label}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      </div>
                     </label>
 
                     <label className="space-y-2 text-sm">
@@ -497,19 +502,22 @@ export default function OptionsPage() {
                       <span className="font-medium">
                         {t("optionsPresetModels", undefined, "Preset Models")}
                       </span>
-                      <select
-                        className={fieldClassName}
-                        onChange={(e) => updateConfig({ model: e.target.value })}
-                        value={presetModels.includes(formConfig.model) ? formConfig.model : ""}>
-                        <option value="">
-                          {t("optionsManualInput", undefined, "Manual Input")}
-                        </option>
-                        {presetModels.map((model) => (
-                          <option key={model} value={model}>
-                            {model}
+                      <div className="relative">
+                        <select
+                          className={selectFieldClassName}
+                          onChange={(e) => updateConfig({ model: e.target.value })}
+                          value={presetModels.includes(formConfig.model) ? formConfig.model : ""}>
+                          <option value="">
+                            {t("optionsManualInput", undefined, "Manual Input")}
                           </option>
-                        ))}
-                      </select>
+                          {presetModels.map((model) => (
+                            <option key={model} value={model}>
+                              {model}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      </div>
                     </label>
 
                     <label className="space-y-2 text-sm">
@@ -562,22 +570,7 @@ export default function OptionsPage() {
                       {testing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wifi className="h-4 w-4" />}
                       {t("actionTestConnection", undefined, "Test Connection")}
                     </Button>
-                    {message ? <Badge variant="secondary">{message}</Badge> : null}
                   </div>
-
-                  {testResult ? (
-                    <div className="rounded-2xl border border-border/70 bg-secondary/70 p-3 text-sm">
-                      {testResult.success ? (
-                        <p className="font-medium text-emerald-700 dark:text-emerald-300">
-                          ✅ {t("optionsConnectionSuccess", undefined, "Connection Success")} ({testResult.latency}ms)
-                        </p>
-                      ) : (
-                        <p className="font-medium text-rose-700 dark:text-rose-300">
-                          ❌ {testResult.error}
-                        </p>
-                      )}
-                    </div>
-                  ) : null}
                 </div>
               </CardContent>
             </Card>
@@ -742,7 +735,6 @@ export default function OptionsPage() {
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                     {t("actionSavePreferences", undefined, "Save Preferences")}
                   </Button>
-                  {message ? <Badge variant="secondary">{message}</Badge> : null}
                 </div>
               </CardContent>
             </Card>
@@ -812,7 +804,6 @@ export default function OptionsPage() {
                       <Trash2 className="mr-2 h-4 w-4" />
                       {t("actionClearCacheNow", undefined, "Clear Cache Now")}
                     </Button>
-                    {message && <Badge variant="secondary">{message}</Badge>}
                   </div>
                 </CardContent>
               </Card>

@@ -1,7 +1,7 @@
 {
   "name": "github-lens",
   "displayName": "__MSG_extensionName__",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "__MSG_extensionDescription__",
   "author": "Yangzie <[lnmput@gmail.com]>",
   "scripts": {
@@ -17,6 +17,7 @@
     "plasmo": "0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
