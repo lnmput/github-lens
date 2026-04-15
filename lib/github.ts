@@ -7,8 +7,28 @@ export function isGitHubRepoHomepage(location = window.location) {
   }
 
   const segments = location.pathname.split("/").filter(Boolean)
+  const reservedFirstSegments = new Set([
+    "settings",
+    "notifications",
+    "marketplace",
+    "new",
+    "issues",
+    "pulls",
+    "explore",
+    "topics",
+    "collections",
+    "events",
+    "sponsors",
+    "orgs",
+    "enterprises",
+    "account",
+    "login",
+    "logout",
+    "signup",
+    "sessions"
+  ])
 
-  if (segments.length !== 2) {
+  if (segments.length !== 2 || reservedFirstSegments.has(segments[0].toLowerCase())) {
     return false
   }
 
@@ -16,11 +36,17 @@ export function isGitHubRepoHomepage(location = window.location) {
     'meta[name="octolytics-dimension-repository_nwo"]'
   )
 
-  if (repoMeta?.content) {
-    return repoMeta.content.toLowerCase() === segments.join("/").toLowerCase()
+  if (repoMeta?.content && repoMeta.content.toLowerCase() !== segments.join("/").toLowerCase()) {
+    return false
   }
 
-  return Boolean(findSidebarAnchor())
+  // Guard against false positives on non-repository pages that have similar side layout.
+  return Boolean(
+    repoMeta?.content ||
+      document.querySelector(
+        '#repo-content-pjax-container, #repository-container-header, [data-testid="repository-container-header"]'
+      )
+  )
 }
 
 export function findSidebarAnchor() {
