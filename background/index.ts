@@ -75,6 +75,11 @@ async function handleMessage(
       ? (isChinese ? "\n输出内容应尽可能详细且保持结构化。" : "\nOutput should be as detailed as possible but remain structured.")
       : (isChinese ? "\n输出内容应保持简洁，避免冗长。" : "\nOutput should be concise and avoid verbosity.")
 
+  const summaryDepthOverrideInstruction =
+    message.type === "SUMMARIZE" && requestedSummaryDepth === "detailed"
+      ? `\n[DEEP ANALYSIS OVERRIDE] These rules take precedence over any length/count limits in the template:\n- oneLiner: allow 1~25 words with stronger value/use-case context.\n- techStack: provide 4~8 items, including framework, rendering/build strategy, and key infrastructure when relevant.\n- targetUsers: allow 10~40 words with more specific audience and goals.\n- highlights: provide 5~7 items, each 8~22 words, emphasizing implementation details, performance traits, and engineering tradeoffs.\n- Must still return strict JSON with the same field names.`
+      : ""
+
   if (message.type === "SUMMARIZE") {
     const prompt =
       buildSummaryPrompt(
@@ -83,7 +88,8 @@ async function handleMessage(
         settings.promptTemplates.summaryPrompt
       ) +
       languageInstruction +
-      depthHint
+      depthHint +
+      summaryDepthOverrideInstruction
     const raw = await callLLM(config, prompt)
     return {
       success: true,
