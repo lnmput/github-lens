@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react"
-import { Activity, ChevronRight, Code2, RefreshCw, Settings2, Sparkles } from "lucide-react"
+import {
+  Activity,
+  ChevronRight,
+  Code2,
+  FileText,
+  RefreshCw,
+  Settings2,
+  Sparkles
+} from "lucide-react"
 
 import LogoMark from "~components/LogoMark"
 import SummaryResult from "~components/SummaryResult"
 import RecommendationResult from "~components/RecommendationResult"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "~components/ui/tooltip"
 import { t } from "~lib/i18n"
 import {
   loadCachedSummary,
@@ -22,6 +36,7 @@ import {
 import type {
   RepoData,
   ResolvedOutputLanguage,
+  SummaryDepth,
   SummaryResult as SummaryResultType,
   UserSettings,
   RecommendationResult as RecommendationResultType
@@ -75,7 +90,10 @@ export default function SummaryPanel({
     setError("")
   }, [repoData.fullName])
 
-  const handleSummarize = async (force: boolean = false) => {
+  const handleSummarize = async (
+    force: boolean = false,
+    summaryDepthOverride?: SummaryDepth
+  ) => {
     if (!settings?.providerConfig) {
       setError(
         t(
@@ -89,13 +107,14 @@ export default function SummaryPanel({
 
     setLoadingAction("summary")
     setError("")
+    const summaryDepthForRequest = summaryDepthOverride ?? settings.summaryDepth
 
     if (!force) {
       const cached = await loadCachedSummary(
         repoData.fullName,
         settings.providerConfig,
         outputLanguage,
-        settings.summaryDepth,
+        summaryDepthForRequest,
         settings.promptTemplates.summaryPrompt
       )
       if (cached) {
@@ -109,7 +128,8 @@ export default function SummaryPanel({
       type: "SUMMARIZE",
       payload: {
         repoData,
-        outputLanguage
+        outputLanguage,
+        summaryDepthOverride
       }
     })
 
@@ -127,7 +147,7 @@ export default function SummaryPanel({
       repoData.fullName,
       settings.providerConfig,
       outputLanguage,
-      settings.summaryDepth,
+      summaryDepthForRequest,
       settings.promptTemplates.summaryPrompt,
       response.data
     )
@@ -431,13 +451,49 @@ export default function SummaryPanel({
                             <Activity className="h-3.5 w-3.5" />
                             {t("summaryPanelAnalysisReady", undefined, "Analysis Ready")}
                           </div>
-                          <button
-                            className="flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
-                            onClick={() => void handleSummarize(true)}
-                            title={t("actionRegenerate", undefined, "Regenerate")}
-                            type="button">
-                            <RefreshCw className="h-3.5 w-3.5" />
-                          </button>
+                          <TooltipProvider delayDuration={120}>
+                            <div className="ml-auto flex items-center gap-1.5">
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    className="flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+                                    onClick={() => void handleSummarize(true)}
+                                    aria-label={t("actionRegenerate", undefined, "Regenerate")}
+                                    type="button">
+                                    <RefreshCw className="h-3.5 w-3.5" />
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent side="top">
+                                  {t("actionRegenerate", undefined, "Regenerate")}
+                                </TooltipContent>
+                              </Tooltip>
+
+                              {settings?.summaryDepth === "brief" ? (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <button
+                                      className="flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-blue-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-blue-300"
+                                      onClick={() => void handleSummarize(true, "detailed")}
+                                      aria-label={t(
+                                        "actionDeepAnalyze",
+                                        undefined,
+                                        "Deep analysis (more detailed output)"
+                                      )}
+                                      type="button">
+                                      <FileText className="h-3.5 w-3.5" />
+                                    </button>
+                                  </TooltipTrigger>
+                                  <TooltipContent side="top">
+                                    {t(
+                                      "actionDeepAnalyze",
+                                      undefined,
+                                      "Deep analysis (more detailed output)"
+                                    )}
+                                  </TooltipContent>
+                                </Tooltip>
+                              ) : null}
+                            </div>
+                          </TooltipProvider>
                         </div>
                         <SummaryResult result={summaryResult} />
                       </div>

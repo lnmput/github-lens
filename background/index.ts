@@ -7,6 +7,7 @@ import {
   parseJsonResponse
 } from "~lib/utils"
 import type {
+  SummaryDepth,
   RuntimeMessage,
   RuntimeResponse,
   SummaryResult,
@@ -60,13 +61,17 @@ async function handleMessage(
   const settings = await loadUserSettings()
   const languageLabel = getOutputLanguageLabel(message.payload.outputLanguage)
   const isChinese = message.payload.outputLanguage === "zh"
+  const requestedSummaryDepth: SummaryDepth =
+    message.type === "SUMMARIZE"
+      ? message.payload.summaryDepthOverride ?? settings.summaryDepth
+      : settings.summaryDepth
   
   const languageInstruction = isChinese 
     ? `\n重要指令：所有可翻译的字段（总结、特点、描述、理由等）必须严格使用“中文”输出。保持专有名词、仓库名、URL 原始格式。`
     : `\nIMPORTANT: All translatable fields must be output in ${languageLabel}. Keep proper nouns, repo names, and URLs in their original form.`
 
   const depthHint =
-    settings.summaryDepth === "detailed"
+    requestedSummaryDepth === "detailed"
       ? (isChinese ? "\n输出内容应尽可能详细且保持结构化。" : "\nOutput should be as detailed as possible but remain structured.")
       : (isChinese ? "\n输出内容应保持简洁，避免冗长。" : "\nOutput should be concise and avoid verbosity.")
 

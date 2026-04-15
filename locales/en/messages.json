@@ -20,6 +20,7 @@
   "actionRetryAnalysis": { "message": "Retry Analysis" },
   "actionModifyApiSettings": { "message": "Modify API Settings" },
   "actionRegenerate": { "message": "Regenerate" },
+  "actionDeepAnalyze": { "message": "Deep analysis" },
   "actionRefresh": { "message": "Refresh" },
   "tabAnalysis": { "message": "Analysis" },
   "tabDiscovery": { "message": "Discovery" },

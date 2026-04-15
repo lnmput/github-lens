@@ -20,6 +20,7 @@
   "actionRetryAnalysis": { "message": "重试分析" },
   "actionModifyApiSettings": { "message": "修改 API 设置" },
   "actionRegenerate": { "message": "重新生成" },
+  "actionDeepAnalyze": { "message": "深入分析" },
   "actionRefresh": { "message": "刷新" },
   "tabAnalysis": { "message": "分析" },
   "tabDiscovery": { "message": "发现" },

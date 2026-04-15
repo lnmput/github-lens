@@ -98,6 +98,7 @@ export type RuntimeMessage =
     payload: {
       repoData: RepoData
       outputLanguage: ResolvedOutputLanguage
+      summaryDepthOverride?: SummaryDepth
     }
   }
   | {
