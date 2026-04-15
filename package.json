@@ -1,8 +1,8 @@
 {
   "name": "github-lens",
-  "displayName": "GitHub Lens",
-  "version": "0.0.2",
-  "description": "AI-powered GitHub repository explorer for instant insights, summaries, and smart recommendations.",
+  "displayName": "__MSG_extensionName__",
+  "version": "1.0.0",
+  "description": "__MSG_extensionDescription__",
   "author": "Yangzie <[lnmput@gmail.com]>",
   "scripts": {
     "dev": "plasmo dev",
@@ -32,9 +32,9 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "default_locale": "en",
     "permissions": [
-      "storage",
-      "activeTab"
+      "storage"
     ],
     "key": "$CRX_KEY",
     "host_permissions": [

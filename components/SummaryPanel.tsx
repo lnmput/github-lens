@@ -4,6 +4,7 @@ import { Activity, ChevronRight, Code2, RefreshCw, Settings2, Sparkles } from "l
 import LogoMark from "~components/LogoMark"
 import SummaryResult from "~components/SummaryResult"
 import RecommendationResult from "~components/RecommendationResult"
+import { t } from "~lib/i18n"
 import {
   loadCachedSummary,
   loadCachedRecommendation,
@@ -76,7 +77,13 @@ export default function SummaryPanel({
 
   const handleSummarize = async (force: boolean = false) => {
     if (!settings?.providerConfig) {
-      setError("Please configure model and API Key first")
+      setError(
+        t(
+          "errorConfigureModelAndApiKey",
+          undefined,
+          "Please configure model and API Key first"
+        )
+      )
       return
     }
 
@@ -107,7 +114,10 @@ export default function SummaryPanel({
     })
 
     if (!response.success || !response.data) {
-      setError(response.error ?? "Failed to generate summary")
+      setError(
+        response.error ??
+          t("errorFailedToGenerateSummary", undefined, "Failed to generate summary")
+      )
       setLoadingAction(null)
       return
     }
@@ -126,7 +136,13 @@ export default function SummaryPanel({
 
   const handleRecommendation = async (force: boolean = false) => {
     if (!settings?.providerConfig) {
-      setError("Please configure model and API Key first")
+      setError(
+        t(
+          "errorConfigureModelAndApiKey",
+          undefined,
+          "Please configure model and API Key first"
+        )
+      )
       return
     }
 
@@ -157,7 +173,7 @@ export default function SummaryPanel({
     })
 
     if (!response.success || !response.data) {
-      setError(response.error ?? "Discovery failed")
+      setError(response.error ?? t("errorDiscoveryFailed", undefined, "Discovery failed"))
       setLoadingAction(null)
       return
     }
@@ -180,7 +196,9 @@ export default function SummaryPanel({
     })
 
     if (!response.success) {
-      setError(response.error ?? "Unable to open settings")
+      setError(
+        response.error ?? t("errorUnableToOpenSettings", undefined, "Unable to open settings")
+      )
     }
   }
 
@@ -192,13 +210,13 @@ export default function SummaryPanel({
   }> = [
       {
         key: "summary",
-        label: "Analysis",
+        label: t("tabAnalysis", undefined, "Analysis"),
         icon: <Activity className="h-4 w-4" />,
         onSelect: handleSummarize
       },
       {
         key: "recommendation",
-        label: "Discovery",
+        label: t("tabDiscovery", undefined, "Discovery"),
         icon: <Sparkles className="h-4 w-4" />,
         onSelect: handleRecommendation
       }
@@ -242,7 +260,7 @@ export default function SummaryPanel({
             <button
               className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-white/70 hover:text-primary dark:text-slate-500 dark:hover:bg-slate-800/80 dark:hover:text-sky-300"
               onClick={handleOpenOptions}
-              title="Settings"
+              title={t("actionSettings", undefined, "Settings")}
               type="button">
               <Settings2 className="h-4 w-4" />
             </button>
@@ -255,17 +273,21 @@ export default function SummaryPanel({
               <div className="space-y-3">
                 <div className="space-y-1.5">
                   <p className="text-sm font-bold text-amber-900 dark:text-amber-200">
-                    Activate AI Power
+                    {t("summaryPanelActivateAiPower", undefined, "Activate AI Power")}
                   </p>
                   <p className="text-[11px] leading-relaxed text-amber-800/70 dark:text-amber-300/60">
-                    Configure your API Key to unlock deep insights and technical discovery.
+                    {t(
+                      "summaryPanelActivateAiDesc",
+                      undefined,
+                      "Configure your API Key to unlock deep insights and technical discovery."
+                    )}
                   </p>
                 </div>
                 <button
                   className="flex items-center gap-1.5 text-[11px] font-bold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300"
                   onClick={handleOpenOptions}
                   type="button">
-                  Go to Settings <ChevronRight className="h-3 w-3" />
+                  {t("actionGoToSettings", undefined, "Go to Settings")} <ChevronRight className="h-3 w-3" />
                 </button>
               </div>
             </div>
@@ -303,18 +325,33 @@ export default function SummaryPanel({
                   <div className="space-y-3">
                     <div className="flex-1 space-y-1.5">
                       <h4 className="text-[13px] font-bold text-red-800 dark:text-red-200 text-center">
-                        {error.toLowerCase().includes("rate limit") ? "API Rate Limit Reached" : 
-                         error.toLowerCase().includes("api key") || error.toLowerCase().includes("unauthorized") ? "Authentication Failed" :
-                         "Oops! Something went wrong"}
+                        {error.toLowerCase().includes("rate limit")
+                          ? t("summaryPanelErrorRateLimit", undefined, "API Rate Limit Reached")
+                          : error.toLowerCase().includes("api key") ||
+                              error.toLowerCase().includes("unauthorized")
+                            ? t("summaryPanelErrorAuthFailed", undefined, "Authentication Failed")
+                            : t(
+                                "summaryPanelErrorGenericTitle",
+                                undefined,
+                                "Oops! Something went wrong"
+                              )}
                       </h4>
                       <p className="text-[11px] leading-relaxed text-red-700/80 dark:text-red-400/70 text-center">
                         {error.toLowerCase().includes("rate limit") ? (
                           <>
-                            Your current API tier has a limit. Please wait a few seconds and try again.
+                            {t(
+                              "summaryPanelErrorRateLimitDesc",
+                              undefined,
+                              "Your current API tier has a limit. Please wait a few seconds and try again."
+                            )}
                             {error.includes("in ") && <span className="block mt-1 font-mono text-[10px] opacity-70 italic">{error.split("in ")[1].split(".")[0]}s remaining</span>}
                           </>
                         ) : error.toLowerCase().includes("api key") || error.toLowerCase().includes("unauthorized") ? (
-                          "Your API Key seems invalid or expired. Check your provider settings."
+                          t(
+                            "summaryPanelErrorAuthDesc",
+                            undefined,
+                            "Your API Key seems invalid or expired. Check your provider settings."
+                          )
                         ) : (
                           error
                         )}
@@ -331,7 +368,7 @@ export default function SummaryPanel({
                         }
                         type="button">
                         <RefreshCw className="h-4 w-4" />
-                        Retry Analysis
+                        {t("actionRetryAnalysis", undefined, "Retry Analysis")}
                       </button>
                       
                       {(error.toLowerCase().includes("api key") || error.toLowerCase().includes("401") || error.toLowerCase().includes("unauthorized") || error.toLowerCase().includes("settings")) && (
@@ -339,7 +376,7 @@ export default function SummaryPanel({
                           className="w-full rounded-xl border border-red-200 bg-white py-2 text-[11px] font-bold text-red-700 transition-all hover:bg-red-50 dark:border-red-900/50 dark:bg-slate-900 dark:text-red-300 dark:hover:bg-red-900/20"
                           onClick={handleOpenOptions}
                           type="button">
-                          Modify API Settings
+                          {t("actionModifyApiSettings", undefined, "Modify API Settings")}
                         </button>
                       )}
                     </div>
@@ -364,7 +401,9 @@ export default function SummaryPanel({
                         <div className="h-full w-1/3 animate-[progress_1.5s_ease-in-out_infinite] bg-blue-600 dark:bg-blue-400" />
                       </div>
                       <p className="text-[12px] font-bold text-slate-800 dark:text-slate-200">
-                        {loadingAction === "summary" ? "Analyzing repository..." : "Discovering treasures..."}
+                        {loadingAction === "summary"
+                          ? t("summaryPanelLoadingAnalysis", undefined, "Analyzing repository...")
+                          : t("summaryPanelLoadingDiscovery", undefined, "Discovering treasures...")}
                       </p>
                     </div>
                   </div>
@@ -377,10 +416,10 @@ export default function SummaryPanel({
                       </div>
                     </div>
                     <h3 className="mb-2 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-200">
-                      Select a Tab to Start
+                      {t("summaryPanelSelectTab", undefined, "Select a Tab to Start")}
                     </h3>
                     <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                      AI-Powered Insight Hub
+                      {t("summaryPanelInsightHub", undefined, "AI-Powered Insight Hub")}
                     </p>
                   </div>
                 ) : (
@@ -390,12 +429,12 @@ export default function SummaryPanel({
                         <div className="flex items-center justify-between px-1">
                           <div className="flex items-center gap-2 rounded-md bg-indigo-50/50 px-2.5 py-1 text-[10px] font-bold text-indigo-700 shadow-sm dark:bg-indigo-950/20 dark:text-indigo-400">
                             <Activity className="h-3.5 w-3.5" />
-                            Analysis Ready
+                            {t("summaryPanelAnalysisReady", undefined, "Analysis Ready")}
                           </div>
                           <button
                             className="flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
                             onClick={() => void handleSummarize(true)}
-                            title="Regenerate"
+                            title={t("actionRegenerate", undefined, "Regenerate")}
                             type="button">
                             <RefreshCw className="h-3.5 w-3.5" />
                           </button>
@@ -409,12 +448,12 @@ export default function SummaryPanel({
                         <div className="flex items-center justify-between px-1">
                           <div className="flex items-center gap-2 rounded-md bg-blue-50/50 px-2.5 py-1 text-[10px] font-bold text-blue-700 shadow-sm dark:bg-blue-950/20 dark:text-blue-400">
                             <Sparkles className="h-3.5 w-3.5" />
-                            Discovery Ready
+                            {t("summaryPanelDiscoveryReady", undefined, "Discovery Ready")}
                           </div>
                           <button
                             className="flex h-7 w-7 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
                             onClick={() => void handleRecommendation(true)}
-                            title="Refresh"
+                            title={t("actionRefresh", undefined, "Refresh")}
                             type="button">
                             <RefreshCw className="h-4 w-4" />
                           </button>

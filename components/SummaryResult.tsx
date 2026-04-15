@@ -1,4 +1,5 @@
 import { BookOpen, Rocket, Target, Terminal, Zap } from "lucide-react"
+import { t } from "~lib/i18n"
 import { cn } from "~lib/utils"
 import type { SummaryResult as SummaryResultType } from "~types"
 
@@ -16,7 +17,7 @@ export default function SummaryResult({
         <div className="flex items-center gap-2 mb-1.5">
           <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">1</div>
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Core Insight
+            {t("summarySectionCoreInsight", undefined, "Core Insight")}
           </p>
         </div>
         <p className="text-[13px] font-medium leading-relaxed text-foreground/90">
@@ -29,7 +30,7 @@ export default function SummaryResult({
         <div className="flex items-center gap-2 mb-2">
           <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-[10px] font-bold text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400">2</div>
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Tech Stack
+            {t("summarySectionTechStack", undefined, "Tech Stack")}
           </p>
         </div>
         <div className="flex flex-wrap gap-1">
@@ -48,7 +49,7 @@ export default function SummaryResult({
         <div className="flex items-center gap-2 mb-1.5">
           <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-[10px] font-bold text-rose-600 dark:bg-rose-900/40 dark:text-rose-400">3</div>
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Target Audience
+            {t("summarySectionTargetAudience", undefined, "Target Audience")}
           </p>
         </div>
         <p className="text-[12px] leading-relaxed text-muted-foreground">
@@ -61,7 +62,7 @@ export default function SummaryResult({
         <div className="flex items-center gap-2 mb-2">
           <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-amber-100 text-[10px] font-bold text-amber-600 dark:bg-amber-900/40 dark:text-amber-400">4</div>
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Key Highlights
+            {t("summarySectionKeyHighlights", undefined, "Key Highlights")}
           </p>
         </div>
         <ul className="space-y-1.5">
@@ -81,7 +82,7 @@ export default function SummaryResult({
             <div className="flex items-center gap-2">
               <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">5</div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                Project Health
+                {t("summarySectionProjectHealth", undefined, "Project Health")}
               </p>
             </div>
             <span className="rounded-full bg-blue-100/50 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
@@ -89,7 +90,9 @@ export default function SummaryResult({
             </span>
           </div>
           <div className="flex items-center justify-between border-t border-blue-100/50 pt-2 dark:border-blue-900/30">
-            <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400">Expert Suggestion</p>
+            <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400">
+              {t("summarySectionExpertSuggestion", undefined, "Expert Suggestion")}
+            </p>
             <span className={cn(
               "rounded-md px-1.5 py-0.5 text-[11px] font-bold",
               result.recommendation === "Worth Watching" || result.recommendation === "值得关注" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400" :

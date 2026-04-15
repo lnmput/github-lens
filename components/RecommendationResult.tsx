@@ -6,6 +6,7 @@ import {
   Rocket,
   Wrench
 } from "lucide-react"
+import { t } from "~lib/i18n"
 import { cn } from "~lib/utils"
 import type { RecommendationResult as RecommendationResultType } from "~types"
 
@@ -16,22 +17,26 @@ interface RecommendationResultProps {
 const typeConfig = {
   repo: {
     icon: GitBranch,
-    label: "Repository",
+    label: "recommendationTypeRepository",
+    fallback: "Repository",
     color: "text-slate-600 bg-slate-50 border-slate-200/50 dark:text-slate-400 dark:bg-slate-900/50 dark:border-slate-800"
   },
   app: {
     icon: Globe,
-    label: "Web App",
+    label: "recommendationTypeWebApp",
+    fallback: "Web App",
     color: "text-blue-600 bg-blue-50 border-blue-100 dark:text-blue-400 dark:bg-blue-900/30 dark:border-blue-900/50"
   },
   tool: {
     icon: Wrench,
-    label: "Tool",
+    label: "recommendationTypeTool",
+    fallback: "Tool",
     color: "text-amber-600 bg-amber-50 border-amber-100 dark:text-amber-400 dark:bg-amber-900/30 dark:border-amber-900/50"
   },
   article: {
     icon: FileText,
-    label: "Article",
+    label: "recommendationTypeArticle",
+    fallback: "Article",
     color: "text-emerald-600 bg-emerald-50 border-emerald-100 dark:text-emerald-400 dark:bg-emerald-900/30 dark:border-emerald-900/50"
   }
 }
@@ -74,7 +79,7 @@ export default function RecommendationResult({
                     "bg-emerald-50 text-emerald-500 border-emerald-100"
                   )}>
                     <Icon className="h-2.5 w-2.5" />
-                    {config.label}
+                    {t(config.label, undefined, config.fallback)}
                   </div>
                 </div>
 
@@ -102,7 +107,7 @@ export default function RecommendationResult({
       {/* Footer Info */}
       <div className="flex items-center justify-between px-1.5 py-1">
         <p className="text-[9px] font-bold text-slate-300 dark:text-slate-700 uppercase tracking-widest">
-          AI RECOMMENDATIONS
+          {t("recommendationFooterTitle", undefined, "AI RECOMMENDATIONS")}
         </p>
         <p className="text-[9px] font-black text-blue-500/50">
           Q:{result.dataQuality}
