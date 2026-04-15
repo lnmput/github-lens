@@ -430,7 +430,7 @@ export default function SummaryPanel({
                 ) : !activeTab ? (
                   <div className="flex min-h-[120px] flex-col items-center justify-center py-6 text-center animate-in fade-in duration-300">
                     <div className="relative mb-3 group">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-50 shadow-sm ring-1 ring-slate-100 dark:bg-slate-800/50 dark:ring-slate-700 overflow-hidden">
+                      <div className="relative flex h-10 w-10 items-center justify-center rounded-md bg-slate-50 shadow-sm ring-1 ring-slate-100 dark:bg-slate-800/50 dark:ring-slate-700 overflow-hidden">
                         <Code2 className="h-5 w-5 text-slate-300 dark:text-slate-600" />
                         <div className="absolute inset-x-0 h-0.5 w-full animate-[scan_3s_ease-in-out_infinite] bg-indigo-400/30 blur-[1px]" />
                       </div>
