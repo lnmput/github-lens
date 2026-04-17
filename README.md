@@ -34,6 +34,9 @@ GitHub Lens is a powerful browser extension that injects AI-driven intelligence 
 
 ## 🚀 Getting Started
 
+### Install from Chrome Web Store
+- [Download GitHub Lens](https://chromewebstore.google.com/detail/github-lens/cljkhckgkdgkfklbcclkajiopnejfjbo)
+
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v18+)
 - [pnpm](https://pnpm.io/) (v8+)
